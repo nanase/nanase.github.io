@@ -1,0 +1,132 @@
+body {
+    background-color: #212121;
+    margin-top: 2px;
+}
+.obox {
+    color: white;
+    text-shadow: 0 2px 2px rgba(0, 0, 0, .3);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+    border: solid 1px rgba(0, 0, 0, .5);
+    padding: 1rem 0;
+}
+.obox-small {
+    font-size: 1rem;
+    padding: 0.8rem 0 0.6rem 0;
+}
+.obox-small .display-name {
+    padding-top: 2px;
+}
+.obox-temp {
+    background-color: #26aa44;
+    border: solid 1px #26aa44;
+    background: #26aa44;
+    background: -webkit-gradient(linear, left top, left bottom, from(#26aa44), to(#186b2b));
+}
+.obox-hum {
+    background-color: #2f7edb;
+    border: solid 1px #2f7edb;
+    background: #2f7edb;
+    background: -webkit-gradient(linear, left top, left bottom, from(#2f7edb), to(#1e5390));
+}
+.obox-press {
+    background-color: #ec7835;
+    border: solid 1px #ec7835;
+    background: #ec7835;
+    background: -webkit-gradient(linear, left top, left bottom, from(#ec7835), to(#a25326));
+}
+.obox-otemp {
+    background-color: #125021;
+    border: solid 1px #125021;
+    background: #125021;
+    background: -webkit-gradient(linear, left top, left bottom, from(#125021), to(#07210d));
+}
+.obox-vis {
+    background-color: #183f6c;
+    border: solid 1px #183f6c;
+    background: #183f6c;
+    background: -webkit-gradient(linear, left top, left bottom, from(#183f6c), to(#0b1f37));
+}
+.obox-spress {
+    background-color: #904c25;
+    border: solid 1px #904c25;
+    background: #904c25;
+    background: -webkit-gradient(linear, left top, left bottom, from(#904c25), to(#703b1d));
+}
+.obox-wind {
+    background-color: #4a5858;
+    border: solid 1px #4a5858;
+    background: #4a5858;
+    background: -webkit-gradient(linear, left top, left bottom, from(#4a5858), to(#303434));
+}
+.obox-dcmf {
+    background-color: #5d5363;
+    border: solid 1px #5d5363;
+    background: #5d5363;
+    background: -webkit-gradient(linear, left top, left bottom, from(#5d5363), to(#39353c));
+}
+.obox-wind .display-dir {
+    font-size: 1.8em;
+    font-weight: normal;
+}
+.obox-uptime, .obox-obtime, .obox-dbsize {
+    background-color: #454545;
+    border: solid 1px #454545;
+    background: #454545;
+    background: -webkit-gradient(linear, left top, left bottom, from(#454545), to(#222222));
+}
+.obox-graph {
+    background-color: #fff;
+    border: solid 1px #fff;
+    background: #fff;
+    background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#ddd));
+    padding: 1rem;
+}
+.visible-xs.obox-graph {
+    padding: 0.5rem;
+}
+.obox-graph .display-name {
+    color: black;
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+.obox-graphbutton {
+    font-size: 1.1rem;
+    padding: 5px;
+}
+.display-big {
+    font-size: 1.8em;
+    font-weight: bold;
+    display: inline-block;
+}
+.display-unit {
+    font-size: 0.8em;
+}
+.display-name {
+    font-size: 1.0rem;
+    display: block;
+    margin-top: -0.5rem;
+}
+.bar {
+    height: 2px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.barbox {
+    overflow: hidden;
+    width: 100%;
+}
+.progressbar {
+    position: absolute;
+    width: 0%;
+}
+.progressbar.updatebar {
+    background-color: rgb(78, 142, 255);
+    box-shadow: 0 1px 2px rgba(78, 142, 255, .5);
+    z-index: 10;
+}
+.progressbar.errorbar {
+    background-color: rgb(255, 78, 78);
+    box-shadow: 0 1px 2px rgba(255, 78, 78, .8);
+    z-index: 11;
+}

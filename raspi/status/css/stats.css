@@ -1,0 +1,9 @@
+body {
+    background-color: #fff;
+}
+.row {
+    margin: 0;
+}
+div+h2 {
+    margin-top: 4rem;
+}

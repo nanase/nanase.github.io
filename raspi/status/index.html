@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Nanase Raspi Status</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css" />
+    <link rel="stylesheet" href="css/nv.d3.min.css" />
+    <link rel="stylesheet" href="css/raspi.css" />
+    <script type="text/javascript" src="js/jquery-2.2.3.min.js"></script>
+    <script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/d3.min.js"></script>
+    <script type="text/javascript" src="js/nv.d3.min.js"></script>
+    <script type="text/javascript" src="js/raspi.js"></script>
+</head>
+
+<body>
+    <div class="bar barbox">
+        <div class="bar progressbar updatebar"></div>
+        <div class="bar progressbar errorbar"></div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-md-5 col-lg-4">
+                <div class="row row-eq-height text-center">
+                    <a href="javascript:void(0)" onclick="graphType='temp';drawGraph(graphType, graphRange);">
+                        <div class="obox obox-temp col-xs-4 col-sm-4">
+                            <span class="display-big">--</span>
+                            <span class="display-unit">℃</span>
+                            <span class="display-name">Temperature</span>
+                        </div>
+                    </a>
+                    <a href="javascript:void(0)" onclick="graphType='hum';drawGraph(graphType, graphRange);">
+                        <div class="obox obox-hum col-xs-4 col-sm-4">
+                            <span class="display-big">--</span>
+                            <span class="display-unit">%</span>
+                            <span class="display-name">Humidity</span>
+                        </div>
+                    </a>
+                    <a href="javascript:void(0)" onclick="graphType='press';drawGraph(graphType, graphRange);">
+                        <div class="obox obox-press col-xs-4 col-sm-4">
+                            <span class="display-big">--</span>
+                            <span class="display-unit">hPa</span>
+                            <span class="display-name">Pressure</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="row row-eq-height text-center">
+                    <div class="obox obox-small obox-otemp col-xs-4 col-sm-4">
+                        <span class="display-big">--</span>
+                        <span class="display-unit">℃</span>
+                        <span class="display-name">Outdoor temp.</span>
+                    </div>
+                    <div class="obox obox-small obox-vis col-xs-4 col-sm-4">
+                        <span class="display-big">--</span>
+                        <span class="display-unit">km</span>
+                        <span class="display-name">Visibility</span>
+                    </div>
+                    <div class="obox obox-small obox-spress col-xs-4 col-sm-4">
+                        <span class="display-big">--</span>
+                        <span class="display-unit">hPa</span>
+                        <span class="display-name">Sea-level press.</span>
+                    </div>
+                </div>
+                <div class="row row-eq-height text-center">
+                    <div class="obox obox-small obox-wind col-xs-6 col-sm-6">
+                        <span class="display-dir glyphicon glyphicon-arrow-right"></span>
+                        <span class="display-big">--</span>
+                        <span class="display-unit">m/s</span>
+                        <span class="display-name">Wind</span>
+                    </div>
+                    <div class="obox obox-small obox-dcmf col-xs-6 col-sm-6">
+                        <span class="display-big">--</span>
+                        <span class="display-name">Discomfort index</span>
+                    </div>
+                </div>
+                <div class="row row-eq-height text-center">
+                    <div class="visible-xs col-xs-12 obox obox-graph">
+                        <div class="graph" style="height: 200px;">
+                            <svg></svg>
+                        </div>
+                    </div>
+                    <div class="visible-xs col-xs-12">
+                        <div class="row row-eq-height text-center">
+                            <a href="javascript:void(0)" onclick="graphRange='6h';drawGraph(graphType, graphRange);">
+                                <div class="visible-xs col-xs-2 obox obox-graphbutton">6 h</div>
+                            </a>
+                            <a href="javascript:void(0)" onclick="graphRange='12h';drawGraph(graphType, graphRange);">
+                                <div class="visible-xs col-xs-2 obox obox-graphbutton">12 h</div>
+                            </a>
+                            <a href="javascript:void(0)" onclick="graphRange='1d';drawGraph(graphType, graphRange);">
+                                <div class="visible-xs col-xs-2 obox obox-graphbutton">1 d</div>
+                            </a>
+                            <a href="javascript:void(0)" onclick="graphRange='3d';drawGraph(graphType, graphRange);">
+                                <div class="visible-xs col-xs-2 obox obox-graphbutton">3 d</div>
+                            </a>
+                            <a href="javascript:void(0)" onclick="graphRange='10d';drawGraph(graphType, graphRange);">
+                                <div class="visible-xs col-xs-2 obox obox-graphbutton">10 d</div>
+                            </a>
+                            <a href="javascript:void(0)" onclick="graphRange='30d';drawGraph(graphType, graphRange);">
+                                <div class="visible-xs col-xs-2 obox obox-graphbutton">30 d</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row row-eq-height text-center">
+                    <div class="obox obox-small obox-uptime col-xs-4 col-sm-4">
+                        <span class="display-big">--</span>
+                        <span class="display-name">Uptime</span>
+                    </div>
+                    <div class="obox obox-small obox-obtime col-xs-4 col-sm-4">
+                        <span class="display-big">--</span>
+                        <span class="display-name">Observation time</span>
+                    </div>
+                    <div class="obox obox-small obox-dbsize col-xs-4 col-sm-4">
+                        <span class="display-big">--</span>
+                        <span class="display-unit"></span>
+                        <span class="display-name">DB size</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hidden-xs col-sm-6 col-md-7 col-lg-8">
+                <div class="row">
+                    <div class="row">
+                        <div class="col-sm-offset-1 col-sm-11 obox obox-graph">
+                            <div class="graph" style="height: 300px;">
+                                <svg></svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-offset-1 col-sm-11">
+                            <div class="row row-eq-height text-center">
+                                <a href="javascript:void(0)" onclick="graphRange='6h';drawGraph(graphType, graphRange);">
+                                    <div class="hidden-xs col-sm-2 obox obox-graphbutton">6 h</div>
+                                </a>
+                                <a href="javascript:void(0)" onclick="graphRange='12h';drawGraph(graphType, graphRange);">
+                                    <div class="hidden-xs col-sm-2 obox obox-graphbutton">12 h</div>
+                                </a>
+                                <a href="javascript:void(0)" onclick="graphRange='1d';drawGraph(graphType, graphRange);">
+                                    <div class="hidden-xs col-sm-2 obox obox-graphbutton">1 d</div>
+                                </a>
+                                <a href="javascript:void(0)" onclick="graphRange='3d';drawGraph(graphType, graphRange);">
+                                    <div class="hidden-xs col-sm-2 obox obox-graphbutton">3 d</div>
+                                </a>
+                                <a href="javascript:void(0)" onclick="graphRange='10d';drawGraph(graphType, graphRange);">
+                                    <div class="hidden-xs col-sm-2 obox obox-graphbutton">10 d</div>
+                                </a>
+                                <a href="javascript:void(0)" onclick="graphRange='30d';drawGraph(graphType, graphRange);">
+                                    <div class="hidden-xs col-sm-2 obox obox-graphbutton">30 d</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
