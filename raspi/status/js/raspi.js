@@ -106,7 +106,7 @@ $(load_json);
 // ----- graph ----- //
 
 var graphType = 'temp';
-var graphRange = '12h';
+var graphRange = '1d';
 
 function expandDataTmp(data) {
     var indoor = [],
