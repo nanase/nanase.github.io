@@ -59,6 +59,7 @@ function wait_start() {
 }
 
 function load_json() {
+    drawGraph(graphType, graphRange);
     $.getJSON(json_path, function(json) {
         $('.updatebar')
             .animate({
@@ -282,5 +283,3 @@ var funcMap = {
         name: 'Pressure'
     },
 };
-
-drawGraph(graphType, graphRange);
