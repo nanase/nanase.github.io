@@ -107,56 +107,101 @@ $(load_json);
 var graphType = 'temp';
 var graphRange = '12h';
 
-function expandData2(data) {
+function expandDataTmp(data) {
     var indoor = [],
         outdoor = [];
 
-    for (var i = 0; i < data.indoor.length; i++) {
-        indoor.push({
-            x: data.indoor[i][0],
-            y: data.indoor[i][1]
-        });
+    for (var i = 0; i < data.time.length; i++) {
+        if (data.inner.tmp_avg[i])
+            indoor.push({
+                x: data.time[i],
+                y: data.inner.tmp_avg[i]
+            });
+
+        if (data.outer.tmp_avg[i])
+            outdoor.push({
+                x: data.time[i],
+                y: data.outer.tmp_avg[i]
+            });
     }
 
-    for (var i = 0; i < data.outdoor.length; i++) {
-        outdoor.push({
-            x: data.outdoor[i][0],
-            y: data.outdoor[i][1]
-        });
-    }
-
-    return [{
+    return [
+    {
         values: indoor,
         key: 'Indoor',
         color: '#ff7f0e'
-    }, {
+    },
+    {
         values: outdoor,
         key: 'Outdoor',
         color: '#2ca02c'
     }];
 }
 
-function expandData(data) {
-    var indoor = [];
+function expandDataHum(data) {
+    var indoor = [],
+        discomfort = [];
 
-    for (var i = 0; i < data.indoor.length; i++) {
-        indoor.push({
-            x: data.indoor[i][0],
-            y: data.indoor[i][1]
-        });
+    for (var i = 0; i < data.time.length; i++) {
+        if (data.inner.hum_avg[i])
+            indoor.push({
+                x: data.time[i],
+                y: data.inner.hum_avg[i]
+            });
+        
+        if (data.inner.tmp_avg[i] && data.inner.hum_avg[i])
+            discomfort.push({
+                x: data.time[i],
+                y: getDiscomfortIndex(data.inner.tmp_avg[i], data.inner.hum_avg[i])
+            });
     }
 
     return [{
         values: indoor,
-        key: 'Indoor',
+        key: 'Humidity',
         color: '#ff7f0e'
+    },
+    {
+        values: discomfort,
+        key: 'Discomfort index',
+        color: '#2ca02c'
+    }];
+}
+
+function expandDataPrs(data) {
+    var indoor = [],
+        sealevel_outdoor = [];
+
+    for (var i = 0; i < data.time.length; i++) {
+        if (data.inner.prs_avg[i])
+            indoor.push({
+                x: data.time[i],
+                y: data.inner.prs_avg[i]
+            });
+
+        
+        if (data.inner.prs_avg[i] && data.outer.tmp_avg[i])
+            sealevel_outdoor.push({
+                x: data.time[i],
+                y: getSeaPressure(raspi_height, data.outer.tmp_avg[i], data.inner.prs_avg[i])
+            });
+    }
+
+    return [{
+        values: indoor,
+        key: 'Indoor Pressure',
+        color: '#ff7f0e'
+    },
+    {
+        values: sealevel_outdoor,
+        key: 'Sea-level Pressure',
+        color: '#2ca02c'
     }];
 }
 
 function drawGraph(type, range) {
-    $.post('http://157.7.132.203/raspi/stat/', {
-        t: type,
-        r: range
+    $.get('http://157.7.132.203/raspi/stat/', {
+        duration: range
     }, function(data) {
         nv.addGraph(function() {
             var chart = nv.models.lineChart()
@@ -171,7 +216,7 @@ function drawGraph(type, range) {
                 .tickFormat(d3.format(funcMap[type].yformat));
 
             d3.select('.hidden-xs .obox-graph .graph svg')
-                .datum(funcMap[type].func(data.data))
+                .datum(funcMap[type].func(data.result))
                 .transition().duration(500)
                 .call(chart);
 
@@ -194,7 +239,7 @@ function drawGraph(type, range) {
                 .tickFormat(d3.format(funcMap[type].yformat));
 
             d3.select('.visible-xs.obox-graph .graph svg')
-                .datum(funcMap[type].func(data.data))
+                .datum(funcMap[type].func(data.result))
                 .transition().duration(500)
                 .call(chart);
 
@@ -210,25 +255,28 @@ var dateFormatMap = {
     '12h': '%H:%M',
     '1d': '%H:%M',
     '3d': '%d %H:%M',
-    '10d': '%d %H',
-    '30d': '%m-%d'
+    '7d': '%d %H',
+    '15d': '%d %H',
+    '30d': '%m-%d',
+    '180d': '%m-%d',
+    '365d': '%m-%d'
 };
 
 var funcMap = {
     temp: {
-        func: expandData2,
+        func: expandDataTmp,
         yname: 'Temperature (℃)',
         yformat: '.02f',
         name: 'Temperature'
     },
     hum: {
-        func: expandData,
-        yname: 'Humidity (%)',
+        func: expandDataHum,
+        yname: 'Percent (%)',
         yformat: '.02f',
         name: 'Humidity'
     },
     press: {
-        func: expandData,
+        func: expandDataPrs,
         yname: 'Pressure (hPa)',
         yformat: '.01f',
         name: 'Pressure'
