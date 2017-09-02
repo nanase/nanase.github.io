@@ -53,11 +53,60 @@ function load_json() {
     });
 }
 
+function expandData(data) {
+    var play_count = [],
+        comment_count = [],
+        mylist_count = [];
+
+    for (var i = data.time.length; i >= 0 ; i--) {
+        play_count.push({
+            x: data.time[i],
+            y: data.play_count[i]
+        });
+        comment_count.push({
+            x: data.time[i],
+            y: data.comment_count[i]
+        });
+        mylist_count.push({
+            x: data.time[i],
+            y: data.mylist_count[i]
+        });
+    }
+
+    return [{
+        values: play_count,
+        key: 'View',
+        color: '#26aa44'
+    },
+    {
+        values: comment_count,
+        key: 'Comment',
+        color: '#2f7edb'
+    },
+    {
+        values: mylist_count,
+        key: 'Mylist',
+        color: '#ec7835'
+    }];
+}
+
 function load_diff() {
     $.getJSON(diff_path, function(json) {
         $('.diff-view').text(diffText(json.play_count[0]));
         $('.diff-comment').text(diffText(json.comment_count[0]));
         $('.diff-mylist').text(diffText(json.mylist_count[0]));
+
+        nv.addGraph(function() {
+            var chart = nv.models.lineChart()
+                .margin({left: 30, bottom: 20, top: 0})
+                .useInteractiveGuideline(true);
+            chart.xAxis.tickFormat(d => d3.time.format('%H:%M')(new Date(d * 1000)));
+            d3.select('.obox-graph .graph svg')
+                .datum(expandData(json))
+                .call(chart);
+            nv.utils.windowResize(chart.update);
+            return chart;
+        });
 
         setTimeout(load_diff, 60000);
     }).fail(function() {

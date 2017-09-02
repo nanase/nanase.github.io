@@ -82,3 +82,9 @@ body {
 .diff-box-mylist {
     background-color: rgba(236, 120, 53, 0.20)
 }
+.obox-graph {
+    background-color: #fff;
+    border: solid 1px #fff;
+    padding: 4px;
+    margin-top: 2px; 
+}

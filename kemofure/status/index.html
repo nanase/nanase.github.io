@@ -6,20 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Kemofure Monitor</title>
     <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/nv.d3.min.css" />
     <link rel="stylesheet" href="css/kemofure.css" />
     <script type="text/javascript" src="js/jquery-2.2.3.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/d3.min.js"></script>
+    <script type="text/javascript" src="js/nv.d3.min.js"></script>
     <script type="text/javascript" src="js/kemofure.js"></script>
 </head>
 
 <body>
     <div class="container">
-        <div class="row row-eq-height text-center">
-            <strong>** WIP **</strong>
-            <p>
-                けものフレンズ1話の再生数、コメント数、マイリス数をリアルタイムに監視します。
-            </p>
-        </div>
         <div class="row row-eq-height text-center">
             <div class="obox-outer col-xs-4 col-sm-4">
                 <div class="obox obox-view">
@@ -55,6 +52,13 @@
             <div class="diff diff-box-mylist col-xs-4 col-sm-4">
                 <span class="diff-mylist"></span>
                 <span class="display-name">mpm</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 obox-graph">
+                <div class="graph" style="height: 300px;">
+                    <svg></svg>
+                </div>
             </div>
         </div>
     </div>
