@@ -1,0 +1,51 @@
+body {
+    background-color: #212121;
+    margin-top: 2px;
+    color: #aaa;
+}
+.obox {
+    color: white;
+    text-shadow: 0 2px 2px rgba(0, 0, 0, .3);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+    border: solid 1px rgba(0, 0, 0, .5);
+    padding: 1rem 0;
+}
+.obox-outer {
+    padding: 2px;
+}
+.obox-small {
+    font-size: 1rem;
+    padding: 0.8rem 0 0.6rem 0;
+}
+.obox-small .display-name {
+    padding-top: 2px;
+}
+.obox.updated {
+    background-color: transparent;
+    transition-property: background-color;
+    transition-duration: 2s;
+    transition-delay: 2s;
+    transition-timing-function: cubic-bezier(0, 0, 1, 0);
+}
+.obox-view {
+    background-color: #26aa44;
+    border: solid 1px #26aa44;
+}
+.obox-comment {
+    background-color: #2f7edb;
+    border: solid 1px #2f7edb;
+}
+.obox-mylist {
+    background-color: #ec7835;
+    border: solid 1px #ec7835;
+}
+.display-big {
+    font-size: 1.8em;
+    font-weight: bold;
+    display: inline-block;
+}
+.display-name {
+    font-size: 1.0rem;
+    display: block;
+    margin-top: -0.5rem;
+}
