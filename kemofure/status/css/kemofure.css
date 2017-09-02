@@ -62,7 +62,23 @@ body {
     display: inline-block;
 }
 .display-name {
-    font-size: 1.0rem;
+    font-size: 1.2rem;
     display: block;
     margin-top: -0.5rem;
+}
+.diff {
+    color: #fff;
+}
+.diff .display-name {
+    display: inline;
+    margin: 0;
+}
+.diff-box-view {
+    background-color: rgba(38, 170, 68, 0.20);
+}
+.diff-box-comment {
+    background-color: rgba(47, 126, 219, 0.20);
+}
+.diff-box-mylist {
+    background-color: rgba(236, 120, 53, 0.20)
 }

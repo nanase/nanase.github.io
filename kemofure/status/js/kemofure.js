@@ -1,4 +1,5 @@
 var json_path = 'http://157.7.132.203/kemofure/stat/';
+var diff_path = 'http://157.7.132.203/kemofure/diff/';
 var old_json = { time: 0, play_count: 0,comment_count: 0, mylist_count: 0 };
 
 function numberWithCommas(x) {
@@ -52,4 +53,19 @@ function load_json() {
     });
 }
 
-$(load_json);
+function load_diff() {
+    $.getJSON(diff_path, function(json) {
+        $('.diff-view').text(diffText(json.play_count[0]));
+        $('.diff-comment').text(diffText(json.comment_count[0]));
+        $('.diff-mylist').text(diffText(json.mylist_count[0]));
+
+        setTimeout(load_diff, 60000);
+    }).fail(function() {
+        setTimeout(load_diff, 60000);
+    });
+}
+
+$(() => {
+    load_json();
+    load_diff();
+});
