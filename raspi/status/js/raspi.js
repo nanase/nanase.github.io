@@ -112,8 +112,11 @@ $(load_json);
 
 // ----- graph ----- //
 
-var graphType = 'temp';
-var graphRange = '1d';
+if (!(graphType = localStorage.getItem('graphType')))
+    graphType = 'temp';
+
+if (!(graphRange = localStorage.getItem('graphRange')))
+    graphRange = '1d';
 
 function expandDataTmp(data) {
     var indoor = [],
@@ -208,6 +211,8 @@ function expandDataPrs(data) {
 }
 
 function drawGraph(type, range) {
+    localStorage.setItem('graphType', type);
+    localStorage.setItem('graphRange', range);
     $.get('http://157.7.132.203/raspi/stat/', {
         duration: range
     }, function(data) {
