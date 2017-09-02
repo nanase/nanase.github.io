@@ -1,5 +1,6 @@
 var json_path = 'http://157.7.132.203/raspi/status/json/';
 var raspi_height = 34.6;
+var reload_count = 0;
 
 function secondToTime(t) {
     var z = v => (v < 10 ? '0' : '') + v;
@@ -59,8 +60,13 @@ function wait_start() {
 }
 
 function load_json() {
+    if (reload_count == 60) {
+        location.reload();
+    }
+
     drawGraph(graphType, graphRange);
     $.getJSON(json_path, function(json) {
+        reload_count++;
         $('.updatebar')
             .animate({
                 width: "0%"
@@ -91,6 +97,7 @@ function load_json() {
 
         wait_start();
     }).fail(function() {
+        reload_count = 0;
         $('.errorbar')
             .animate({
                 width: "100%"
