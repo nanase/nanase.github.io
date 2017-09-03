@@ -4,7 +4,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Kemofure Monitor</title>
+    <title>Kemofure Monitor - 1話リアルタイム統計</title>
     <link rel="Shortcut Icon" href="../kemono.ico" type="image/x-icon" />
     <link rel="icon" href="../kemono.ico" />
     <link rel="stylesheet" href="css/bootstrap.min.css" />
@@ -62,6 +62,43 @@
                     <svg></svg>
                 </div>
             </div>
+        </div>
+        <div class="row row-eq-height text-center">
+            <a href="javascript:void(0)" onclick="load_graph('d');"><div class="obox obox-mini obox-kind col-xs-2 col-sm-2">
+                Diff
+            </div></a>
+            <a href="javascript:void(0)" onclick="load_graph(null,'1');"><div class="obox obox-mini col-xs-2 col-sm-2">
+                1 d
+            </div></a>
+            <a href="javascript:void(0)" onclick="load_graph(null,'3');"><div class="obox obox-mini col-xs-2 col-sm-2">
+                3 d
+            </div></a>
+            <a href="javascript:void(0)" onclick="load_graph(null,'7');"><div class="obox obox-mini col-xs-2 col-sm-2">
+                7 d
+            </div></a>
+            <a href="javascript:void(0)" onclick="load_graph(null,'15');"><div class="obox obox-mini col-xs-2 col-sm-2">
+                15 d
+            </div></a>
+            <a href="javascript:void(0)" onclick="load_graph(null,'30');"><div class="obox obox-mini col-xs-2 col-sm-2">
+                30 d
+            </div></a>
+        </div>
+        <div class="row row-eq-height text-center">
+            <a href="javascript:void(0)" onclick="load_graph('s');"><div class="obox obox-mini obox-kind col-xs-2 col-sm-2">
+                Total
+            </div></a>
+            <a href="javascript:void(0)" onclick="load_graph(null,'60');"><div class="obox obox-mini col-xs-2 col-sm-2">
+                60 d
+            </div></a>
+            <a href="javascript:void(0)" onclick="load_graph(null,'90');"><div class="obox obox-mini col-xs-2 col-sm-2">
+                90 d
+            </div></a>
+            <a href="javascript:void(0)" onclick="load_graph(null,'180');"><div class="obox obox-mini col-xs-2 col-sm-2">
+                180 d
+            </div></a>
+            <a href="javascript:void(0)" onclick="load_graph(null,'365');"><div class="obox obox-mini col-xs-2 col-sm-2">
+                365 d
+            </div></a>
         </div>
     </div>
 </body>

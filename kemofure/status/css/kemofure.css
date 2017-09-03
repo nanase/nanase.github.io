@@ -88,3 +88,12 @@ body {
     padding: 4px;
     margin-top: 2px; 
 }
+.obox-mini {
+    padding: 2px 0;
+    font-size: 1rem;
+}
+.obox-kind {
+    padding: 2px 0;
+    font-weight: bold;
+    background-color: #666;
+}

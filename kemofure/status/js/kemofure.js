@@ -1,6 +1,13 @@
 var json_path = 'http://157.7.132.203/kemofure/stat/';
 var diff_path = 'http://157.7.132.203/kemofure/diff/';
 var old_json = { time: 0, play_count: 0,comment_count: 0, mylist_count: 0 };
+var graphDuration, graphKind;
+
+if (!(graphKind = localStorage.getItem('kfm_graphKind')))
+    graphKind = 's';
+
+if (!(graphDuration = localStorage.getItem('kfm_graphDuration')))
+    graphDuration = '1';
 
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -59,62 +66,92 @@ function expandData(data) {
         mylist_count = [];
 
     for (var i = data.time.length; i >= 0 ; i--) {
-        play_count.push({
-            x: data.time[i],
-            y: data.play_count[i]
-        });
-        comment_count.push({
-            x: data.time[i],
-            y: data.comment_count[i]
-        });
-        mylist_count.push({
-            x: data.time[i],
-            y: data.mylist_count[i]
-        });
+        if (data.play_count[i] != null)
+            play_count.push({
+                x: data.time[i],
+                y: Math.round(data.play_count[i])
+            });
+
+        if (data.comment_count[i] != null)
+            comment_count.push({
+                x: data.time[i],
+                y: Math.round(data.comment_count[i])
+            });
+
+        if (data.mylist_count[i] != null)
+            mylist_count.push({
+                x: data.time[i],
+                y: Math.round(data.mylist_count[i])
+            });
     }
 
     return [{
-        values: play_count,
+        values: play_count.reverse(),
         key: 'View',
         color: '#26aa44'
     },
     {
-        values: comment_count,
+        values: comment_count.reverse(),
         key: 'Comment',
         color: '#2f7edb'
     },
     {
-        values: mylist_count,
+        values: mylist_count.reverse(),
         key: 'Mylist',
         color: '#ec7835'
     }];
 }
 
 function load_diff() {
-    $.getJSON(diff_path, function(json) {
-        $('.diff-view').text(diffText(json.play_count[0]));
-        $('.diff-comment').text(diffText(json.comment_count[0]));
-        $('.diff-mylist').text(diffText(json.mylist_count[0]));
+    $.get(diff_path, { },
+    function(json) {
+        $('.diff-view').text(diffText(json.play_count[json.time.length - 1]));
+        $('.diff-comment').text(diffText(json.comment_count[json.time.length - 1]));
+        $('.diff-mylist').text(diffText(json.mylist_count[json.time.length - 1]));
+        setTimeout(load_diff, 60000);
+    }, 'json').fail(function() {
+        setTimeout(load_diff, 60000);
+    });
+}
+
+function load_graph(kind = null, duration = null) {
+    if (kind != null)
+        localStorage.setItem('kfm_graphKind', (graphKind = kind));
+
+    if (duration != null)
+        localStorage.setItem('kfm_graphDuration', (graphDuration = duration));
+
+    $.get(diff_path, {
+        duration: graphDuration,
+        kind: graphKind
+    },
+    function(json) {
+
+        if (graphDuration >= 30)
+            time_format = '%m/%d';
+        else if (graphDuration >= 7)
+            time_format = '%d %H:%M';
+        else
+            time_format = '%H:%M';
 
         nv.addGraph(function() {
             var chart = nv.models.lineChart()
-                .margin({left: 30, bottom: 20, top: 0})
+                .margin({left: 80, bottom: 20, top: 0})
                 .useInteractiveGuideline(true);
-            chart.xAxis.tickFormat(d => d3.time.format('%H:%M')(new Date(d * 1000)));
+            chart.xAxis.tickFormat(d => d3.time.format(time_format)(new Date(d * 1000)));
+            chart.yAxis.tickFormat(d3.format(","));
             d3.select('.obox-graph .graph svg')
                 .datum(expandData(json))
                 .call(chart);
             nv.utils.windowResize(chart.update);
             return chart;
         });
-
-        setTimeout(load_diff, 60000);
-    }).fail(function() {
-        setTimeout(load_diff, 60000);
-    });
+    }, 'json');
 }
 
 $(() => {
     load_json();
     load_diff();
+    load_graph();
+    setInterval(load_graph, 60000);
 });
