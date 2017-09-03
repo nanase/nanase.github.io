@@ -136,7 +136,7 @@ function load_graph(kind = null, duration = null) {
 
         nv.addGraph(function() {
             var chart = nv.models.lineChart()
-                .margin({left: 80, bottom: 20, top: 0})
+                .margin({left: 70, bottom: 20, top: 0})
                 .useInteractiveGuideline(true);
             chart.xAxis.tickFormat(d => d3.time.format(time_format)(new Date(d * 1000)));
             chart.yAxis.tickFormat(d3.format(","));
