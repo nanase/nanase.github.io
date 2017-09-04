@@ -1,14 +1,5 @@
 const json_path = 'https://nanase.onl/kemofure/stat/';
 const diff_path = 'https://nanase.onl/kemofure/diff/';
-let old_json = { time: 0, play_count: 0,comment_count: 0, mylist_count: 0 };
-let graphDuration, graphKind;
-let graphUpdateTimeout = null;
-
-if (!(graphKind = localStorage.getItem('kfm_graphKind')))
-    graphKind = 'd';
-
-if (!(graphDuration = localStorage.getItem('kfm_graphDuration')))
-    graphDuration = '1';
 
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -74,7 +65,27 @@ function load_diff() {
 }
 
 // -------------------------
+
 let chart;
+let old_json = { time: 0, play_count: 0,comment_count: 0, mylist_count: 0 };
+let graphDuration, graphKind;
+let graphUpdateTimeout = null;
+
+if (!(graphKind = localStorage.getItem('kfm_graphKind')))
+    graphKind = 'd';
+
+if (!(graphDuration = localStorage.getItem('kfm_graphDuration')))
+    graphDuration = '1';
+
+function startGraphUpdate() {
+    stopGraphUpdate();
+    graphUpdateTimeout = setTimeout(load_graph, 60000);
+}
+
+function stopGraphUpdate() {
+    if (graphUpdateTimeout)
+        clearInterval(graphUpdateTimeout);
+}
 
 function initialize_graph() {
     Highcharts.setOptions({
@@ -92,7 +103,15 @@ function initialize_graph() {
             renderTo: 'graph',
             type: 'line',
             zoomType: 'x',
-            spacing: [5, 5, 5, 5]
+            spacing: [5, 5, 5, 5],
+            events: {
+                selection: function(event) {
+                    if (event.resetSelection)
+                        startGraphUpdate();
+                    else
+                        stopGraphUpdate();
+                }
+            }
         },
         title: {
             text: null
@@ -167,11 +186,6 @@ function load_graph(kind = null, duration = null) {
     $('.obox.obox-mini').removeClass('obox-selected');
     $('.obox-graph-selector-' + graphKind + ', .obox-graph-selector-' + graphDuration).addClass('obox-selected');
 
-    if (graphUpdateTimeout)
-        clearTimeout(graphUpdateTimeout);
-    
-    graphUpdateTimeout = setTimeout(load_graph, 60000);
-
     $.get(diff_path, {
         duration: graphDuration,
         kind: graphKind
@@ -183,6 +197,8 @@ function load_graph(kind = null, duration = null) {
         chart.series[2].setData(convert(json, json.mylist_count));
         chart.redraw();
     }, 'json');
+
+    startGraphUpdate();    
 }
 
 $(() => {
