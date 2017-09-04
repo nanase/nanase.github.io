@@ -1,7 +1,8 @@
-var json_path = 'https://nanase.onl/kemofure/stat/';
-var diff_path = 'https://nanase.onl/kemofure/diff/';
-var old_json = { time: 0, play_count: 0,comment_count: 0, mylist_count: 0 };
-var graphDuration, graphKind;
+const json_path = 'https://nanase.onl/kemofure/stat/';
+const diff_path = 'https://nanase.onl/kemofure/diff/';
+let old_json = { time: 0, play_count: 0,comment_count: 0, mylist_count: 0 };
+let graphDuration, graphKind;
+let graphUpdateTimeout = null;
 
 if (!(graphKind = localStorage.getItem('kfm_graphKind')))
     graphKind = 'd';
@@ -72,6 +73,90 @@ function load_diff() {
     });
 }
 
+// -------------------------
+let chart;
+
+function initialize_graph() {
+    Highcharts.setOptions({
+        global: {
+            timezoneOffset: 9 * 3600,
+            useUTC: false
+        },
+        lang: {
+            thousandsSep: ','
+        }
+    });
+    
+    chart = Highcharts.chart({
+        chart: {
+            renderTo: 'graph',
+            type: 'line',
+            zoomType: 'x',
+            spacing: [5, 5, 5, 5]
+        },
+        title: {
+            text: null
+        },
+        xAxis: {
+            type: 'datetime',
+            gridLineWidth: 1,
+            dateTimeLabelFormats: {
+                second: '%H:%M:%S',
+                minute: '%H:%M',
+                hour: '%d %H:%M',
+                day: '%m-%d',
+                week: '%m-%d',
+                month: '%Y-%m',
+                year: '%Y'
+            },
+        },
+        yAxis: {
+            allowDecimals: true,
+            min: 0,
+            title: {
+                text: null
+            }
+        },
+        tooltip: {
+            crosshairs: true,
+            shared: true,
+            useHTML: true,
+            headerFormat: '<small>{point.key}</small><table>',
+            pointFormat: '<tr><td style="color: {series.color}">{series.name}: </td>' +
+            '<td style="text-align: right;min-width: 40px"><b>{point.y}</b></td></tr>',
+            footerFormat: '</table>',
+            xDateFormat: '%Y-%m-%d %H:%M'
+        },
+        legend: {
+            enabled: true,
+            align: 'right',
+            verticalAlign: 'top',
+            padding: 0,
+            margin: 0,
+        },
+        credits: {
+            enabled: false
+        },
+        series: [{
+                name: 'View',
+                
+                color: '#26aa44',
+                lineWidth: 1,
+            },
+            {
+                name: 'Comment',
+                color: '#2f7edb',
+                lineWidth: 1,
+            },
+            {
+                name: 'Mylist',
+                color: '#ec7835',
+                lineWidth: 1,
+            }
+        ]
+    });
+}
+
 function load_graph(kind = null, duration = null) {
     if (kind != null)
         localStorage.setItem('kfm_graphKind', (graphKind = kind));
@@ -79,103 +164,27 @@ function load_graph(kind = null, duration = null) {
     if (duration != null)
         localStorage.setItem('kfm_graphDuration', (graphDuration = duration));
 
+    if (graphUpdateTimeout)
+        clearTimeout(graphUpdateTimeout);
+    
+    graphUpdateTimeout = setTimeout(load_graph, 60000);
+
     $.get(diff_path, {
         duration: graphDuration,
         kind: graphKind
     },
     function(json) {
-        var convert = (data, series) => data.time.map((t, i) => [t * 1000, series[i]]);
-        Highcharts.setOptions({
-            global: {
-                timezoneOffset: 9 * 3600,
-                useUTC: false
-            },
-            lang: {
-                thousandsSep: ','
-            }
-        });
-        Highcharts.chart({
-            chart: {
-                renderTo: 'graph',
-                type: 'line',
-                zoomType: 'x',
-                spacing: [5, 5, 5, 5]
-            },
-            title: {
-                text: null
-            },
-            xAxis: {
-                type: 'datetime',
-                gridLineWidth: 1,
-                dateTimeLabelFormats: {
-                    second: '%H:%M:%S',
-                    minute: '%H:%M',
-                    hour: '%d %H:%M',
-                    day: '%m-%d',
-                    week: '%m-%d',
-                    month: '%Y-%m',
-                    year: '%Y'
-                },
-            },
-            
-            yAxis: {
-                allowDecimals: true,
-                min: 0,
-                title: {
-                    text: null
-                }
-            },
-            
-            tooltip: {
-                crosshairs: true,
-                shared: true,
-                useHTML: true,
-                headerFormat: '<small>{point.key}</small><table>',
-                pointFormat: '<tr><td style="color: {series.color}">{series.name}: </td>' +
-                '<td style="text-align: right;min-width: 40px"><b>{point.y}</b></td></tr>',
-                footerFormat: '</table>',
-                xDateFormat: '%Y-%m-%d %H:%M'
-            },
-            
-            legend: {
-                enabled: true,
-                align: 'right',
-                verticalAlign: 'top',
-                padding: 0,
-                margin: 0,
-            },
-
-            credits: {
-                enabled: false
-            },
-            
-            
-            series: [{
-                name: 'View',
-                data: convert(json, json.play_count),
-                color: '#26aa44',
-                lineWidth: 1,
-            },
-            {
-                name: 'Comment',
-                data: convert(json, json.comment_count),
-                color: '#2f7edb',
-                lineWidth: 1,
-            },
-            {
-                name: 'Mylist',
-                data: convert(json, json.mylist_count),
-                color: '#ec7835',
-                lineWidth: 1,
-            }]
-            
-        });
+        let convert = (data, series) => data.time.map((t, i) => [t * 1000, series[i]]);
+        chart.series[0].setData(convert(json, json.play_count));
+        chart.series[1].setData(convert(json, json.comment_count));
+        chart.series[2].setData(convert(json, json.mylist_count));
+        chart.redraw();
     }, 'json');
 }
 
 $(() => {
     load_json();
     load_diff();
+    initialize_graph();
     load_graph();
-    setInterval(load_graph, 60000);
 });
