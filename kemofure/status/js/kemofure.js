@@ -60,48 +60,6 @@ function load_json() {
     });
 }
 
-function expandData(data) {
-    var play_count = [],
-        comment_count = [],
-        mylist_count = [];
-
-    for (var i = data.time.length; i >= 0 ; i--) {
-        if (data.play_count[i] != null)
-            play_count.push({
-                x: data.time[i],
-                y: Math.round(data.play_count[i])
-            });
-
-        if (data.comment_count[i] != null)
-            comment_count.push({
-                x: data.time[i],
-                y: Math.round(data.comment_count[i])
-            });
-
-        if (data.mylist_count[i] != null)
-            mylist_count.push({
-                x: data.time[i],
-                y: Math.round(data.mylist_count[i])
-            });
-    }
-
-    return [{
-        values: play_count.reverse(),
-        key: 'View',
-        color: '#26aa44'
-    },
-    {
-        values: comment_count.reverse(),
-        key: 'Comment',
-        color: '#2f7edb'
-    },
-    {
-        values: mylist_count.reverse(),
-        key: 'Mylist',
-        color: '#ec7835'
-    }];
-}
-
 function load_diff() {
     $.get(diff_path, { },
     function(json) {
@@ -126,23 +84,91 @@ function load_graph(kind = null, duration = null) {
         kind: graphKind
     },
     function(json) {
+        var convert = (data, series) => data.time.map((t, i) => [t * 1000, series[i]]);
+        Highcharts.setOptions({
+            global: {
+                timezoneOffset: 9 * 3600,
+                useUTC: false
+            },
+            lang: {
+                thousandsSep: ','
+            }
+        });
+        Highcharts.chart({
+            chart: {
+                renderTo: 'graph',
+                type: 'line',
+                zoomType: 'x',
+                spacing: [5, 5, 5, 5]
+            },
+            title: {
+                text: null
+            },
+            xAxis: {
+                type: 'datetime',
+                gridLineWidth: 1,
+                dateTimeLabelFormats: {
+                    second: '%H:%M:%S',
+                    minute: '%H:%M',
+                    hour: '%d %H:%M',
+                    day: '%m-%d',
+                    week: '%m-%d',
+                    month: '%Y-%m',
+                    year: '%Y'
+                },
+            },
+            
+            yAxis: {
+                allowDecimals: true,
+                min: 0,
+                title: {
+                    text: null
+                }
+            },
+            
+            tooltip: {
+                crosshairs: true,
+                shared: true,
+                useHTML: true,
+                headerFormat: '<small>{point.key}</small><table>',
+                pointFormat: '<tr><td style="color: {series.color}">{series.name}: </td>' +
+                '<td style="text-align: right;min-width: 40px"><b>{point.y}</b></td></tr>',
+                footerFormat: '</table>',
+                xDateFormat: '%Y-%m-%d %H:%M'
+            },
+            
+            legend: {
+                enabled: true,
+                align: 'right',
+                verticalAlign: 'top',
+                padding: 0,
+                margin: 0,
+            },
 
-        if (graphDuration >= 30)
-            time_format = '%m/%d';
-        else
-            time_format = '%d %H:%M';
-
-        nv.addGraph(function() {
-            var chart = nv.models.lineChart()
-                .margin({left: 70, bottom: 20, top: 0})
-                .useInteractiveGuideline(true);
-            chart.xAxis.tickFormat(d => d3.time.format(time_format)(new Date(d * 1000)));
-            chart.yAxis.tickFormat(d3.format(","));
-            d3.select('.obox-graph .graph svg')
-                .datum(expandData(json))
-                .call(chart);
-            nv.utils.windowResize(chart.update);
-            return chart;
+            credits: {
+                enabled: false
+            },
+            
+            
+            series: [{
+                name: 'View',
+                data: convert(json, json.play_count),
+                color: '#26aa44',
+                lineWidth: 1,
+            },
+            {
+                name: 'Comment',
+                data: convert(json, json.comment_count),
+                color: '#2f7edb',
+                lineWidth: 1,
+            },
+            {
+                name: 'Mylist',
+                data: convert(json, json.mylist_count),
+                color: '#ec7835',
+                lineWidth: 1,
+            }]
+            
         });
     }, 'json');
 }
