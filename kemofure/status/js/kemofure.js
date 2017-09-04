@@ -164,6 +164,9 @@ function load_graph(kind = null, duration = null) {
     if (duration != null)
         localStorage.setItem('kfm_graphDuration', (graphDuration = duration));
 
+    $('.obox.obox-mini').removeClass('obox-selected');
+    $('.obox-graph-selector-' + graphKind + ', .obox-graph-selector-' + graphDuration).addClass('obox-selected');
+
     if (graphUpdateTimeout)
         clearTimeout(graphUpdateTimeout);
     

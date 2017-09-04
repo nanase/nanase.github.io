@@ -92,7 +92,7 @@ body {
     padding: 2px 0;
     font-size: 1rem;
 }
-.obox-kind {
+.obox-selected {
     padding: 2px 0;
     font-weight: bold;
     background-color: #666;
