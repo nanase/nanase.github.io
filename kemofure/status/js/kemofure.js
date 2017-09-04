@@ -4,7 +4,7 @@ var old_json = { time: 0, play_count: 0,comment_count: 0, mylist_count: 0 };
 var graphDuration, graphKind;
 
 if (!(graphKind = localStorage.getItem('kfm_graphKind')))
-    graphKind = 's';
+    graphKind = 'd';
 
 if (!(graphDuration = localStorage.getItem('kfm_graphDuration')))
     graphDuration = '1';
