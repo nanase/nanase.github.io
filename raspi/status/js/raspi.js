@@ -1,4 +1,4 @@
-var json_path = 'http://157.7.132.203/raspi/status/json/';
+var json_path = 'https://nanase.onl/raspi/status/json/';
 var raspi_height = 34.6;
 var reload_count = 0;
 
@@ -213,7 +213,7 @@ function expandDataPrs(data) {
 function drawGraph(type, range) {
     localStorage.setItem('graphType', type);
     localStorage.setItem('graphRange', range);
-    $.get('http://157.7.132.203/raspi/stat/', {
+    $.get('https://nanase.onl/raspi/stat/', {
         duration: range
     }, function(data) {
         nv.addGraph(function() {

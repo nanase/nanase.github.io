@@ -1,5 +1,5 @@
-var json_path = 'http://157.7.132.203/kemofure/stat/';
-var diff_path = 'http://157.7.132.203/kemofure/diff/';
+var json_path = 'https://nanase.onl/kemofure/stat/';
+var diff_path = 'https://nanase.onl/kemofure/diff/';
 var old_json = { time: 0, play_count: 0,comment_count: 0, mylist_count: 0 };
 var graphDuration, graphKind;
 
