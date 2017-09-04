@@ -129,10 +129,8 @@ function load_graph(kind = null, duration = null) {
 
         if (graphDuration >= 30)
             time_format = '%m/%d';
-        else if (graphDuration >= 7)
-            time_format = '%d %H:%M';
         else
-            time_format = '%H:%M';
+            time_format = '%d %H:%M';
 
         nv.addGraph(function() {
             var chart = nv.models.lineChart()
