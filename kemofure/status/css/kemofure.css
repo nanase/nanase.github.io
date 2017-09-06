@@ -4,13 +4,14 @@ body {
     margin-top: 2px;
     color: #eee;
     font-family: 'Open Sans', sans-serif;
-	  font-size: 14px;	
+    font-size: 14px;
+    line-height: 1.4;
 }
 a {
-  color: #acf;
+    color: #acf;
 }
 a:hover {
-  color: inherit;
+    color: inherit;
 }
 .navbar-brand {
     color: inherit;
@@ -26,7 +27,7 @@ a:hover {
     text-shadow: 0 2px 2px rgba(0, 0, 0, .3);
     box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
     border: solid 1px rgba(0, 0, 0, .5);
-    padding: 1rem 0;
+    padding: 0.63rem 0;
 }
 .obox-outer {
     padding: 1px;
@@ -38,7 +39,7 @@ a:hover {
     font-weight: bold;
     color: white;
     text-shadow: 0 2px 2px rgba(0, 0, 0, .3);
-    font-size: 1.4rem;
+    font-size: 0.8rem;
     opacity: 1;
 }
 .obox-diff.updated {
@@ -80,9 +81,9 @@ a:hover {
     display: inline-block;
 }
 .display-name {
-    font-size: 1.2rem;
+    font-size: 0.75rem;
     display: block;
-    margin-top: -0.5rem;
+    margin-top: -0.3rem;
 }
 .diff {
     color: #fff;
@@ -108,7 +109,8 @@ a:hover {
 }
 .obox-mini {
     padding: 2px 0;
-    font-size: 1rem;
+    font-size: 0.6rem;
+    cursor: pointer;
 }
 .obox-selected {
     padding: 2px 0;
@@ -117,5 +119,5 @@ a:hover {
 }
 .obox-link a {
     color: #aaa;
-    font-size: 0.9rem;
+    font-size: 0.6rem;
 }
