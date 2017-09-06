@@ -1,7 +1,10 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,700");
 body {
     background-color: #212121;
     margin-top: 2px;
     color: #aaa;
+    font-family: 'Open Sans', sans-serif;
+	  font-size: 14px;	
 }
 .obox {
     color: white;
