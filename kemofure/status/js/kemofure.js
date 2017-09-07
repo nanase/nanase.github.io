@@ -77,6 +77,17 @@ if (!(graphKind = localStorage.getItem('kfm_graphKind')))
 if (!(graphDuration = localStorage.getItem('kfm_graphDuration')))
   graphDuration = '1';
 
+function convertIntervalNumber (interval) {
+  switch (interval) {
+    case 60: return 'per 1 minute';
+    case 300: return 'per 5 minutes';
+    case 600: return 'per 10 minutes';
+    case 1800: return 'per 30 minutes';
+    case 86400: return 'per 1 day';
+    default: 'per ' + interval + ' seconds';
+  }
+}
+
 function startGraphUpdate() {
   stopGraphUpdate();
   graphUpdateTimeout = setTimeout(load_graph, 60000);
@@ -154,7 +165,16 @@ function initialize_graph() {
       margin: 0,
     },
     credits: {
-      enabled: false
+      enabled: true,
+      href: null,
+      text: '',
+      style: { cursor: 'default', color: '#aaa', fontSize: '10px' },
+      position: {
+        verticalAlign: 'top',
+        align: 'left',
+        x: 60,
+        y: 12
+      }
     },
     series: [{
       name: 'View',
@@ -195,6 +215,7 @@ function load_graph(kind = null, duration = null) {
       chart.series[0].setData(convert(json, json.play_count));
       chart.series[1].setData(convert(json, json.comment_count));
       chart.series[2].setData(convert(json, json.mylist_count));
+      chart.credits.update({ text: convertIntervalNumber(json.interval) });
       chart.redraw();
     }, 'json');
 
