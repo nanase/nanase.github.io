@@ -1,12 +1,13 @@
 const json_path = 'https://nanase.onl/kemofure/stat/';
 const diff_path = 'https://nanase.onl/kemofure/diff/';
+const speed_path = 'https://nanase.onl/kemofure/speed/';
 
 function numberWithCommas(x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 function diffText(value) {
-  return value >= 0 ? '+ ' + value : '- ' + (-value);
+  return value >= 0 ? '+ ' + numberWithCommas(value) : '- ' + numberWithCommas(-value);
 }
 
 function load_json() {
@@ -52,15 +53,48 @@ function load_json() {
   });
 }
 
-function load_diff() {
-  $.get(diff_path, {},
+// -------------------------
+let speedDuration;
+let speedUpdateTimeout = null;
+
+if (!(speedDuration = localStorage.getItem('kfm_speedDuration')))
+  speedDuration = 'h';
+
+function toggle_speed() {
+  if (speedDuration == 'h')
+    speedDuration = 'm';
+  else
+    speedDuration = 'h';
+
+  stopSpeedUpdate();
+  load_speed(speedDuration);
+}
+
+function startSpeedUpdate() {
+  stopSpeedUpdate();
+  speedUpdateTimeout = setTimeout(load_speed, 60000);
+}
+
+function stopSpeedUpdate() {
+  if (speedUpdateTimeout)
+    clearInterval(speedUpdateTimeout);
+}
+
+function load_speed(duration = 'h') {
+  if (duration != null)
+    localStorage.setItem('kfm_speedDuration', (speedDuration = duration));
+
+  $.get(speed_path, { duration: speedDuration },
     function (json) {
-      $('.diff-view').text(diffText(json.play_count[json.time.length - 1]));
-      $('.diff-comment').text(diffText(json.comment_count[json.time.length - 1]));
-      $('.diff-mylist').text(diffText(json.mylist_count[json.time.length - 1]));
-      setTimeout(load_diff, 60000);
+      $('.diff-view').text(diffText(json.play_count));
+      $('.diff-comment').text(diffText(json.comment_count));
+      $('.diff-mylist').text(diffText(json.mylist_count));
+      $('.diff-view ~ .display-name').text('views/' + speedDuration);
+      $('.diff-comment ~ .display-name').text('comments/' + speedDuration);
+      $('.diff-mylist ~ .display-name').text('mylists/' + speedDuration);
+      startSpeedUpdate()
     }, 'json').fail(function () {
-      setTimeout(load_diff, 60000);
+      startSpeedUpdate()
     });
 }
 
@@ -95,7 +129,7 @@ function startGraphUpdate() {
 
 function stopGraphUpdate() {
   if (graphUpdateTimeout)
-    clearInterval(graphUpdateTimeout);
+    clearTimeout(graphUpdateTimeout);
 }
 
 function initialize_graph() {
@@ -234,7 +268,7 @@ function load_graph(kind = null, duration = null) {
 
 $(() => {
   load_json();
-  load_diff();
+  load_speed();
   initialize_graph();
   load_graph();
 });
