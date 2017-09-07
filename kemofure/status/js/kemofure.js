@@ -77,7 +77,7 @@ if (!(graphKind = localStorage.getItem('kfm_graphKind')))
 if (!(graphDuration = localStorage.getItem('kfm_graphDuration')))
   graphDuration = '1';
 
-function convertIntervalNumber (interval) {
+function convertIntervalNumber(interval) {
   switch (interval) {
     case 60: return 'per 1 minute';
     case 300: return 'per 5 minutes';
@@ -114,6 +114,16 @@ function initialize_graph() {
       renderTo: 'graph',
       type: 'line',
       zoomType: 'x',
+      resetZoomButton: {
+        position: {
+          align: 'left',
+          x: 0,
+          y: -1
+        },
+        theme: {
+          height: 12
+        }
+      },
       spacing: [5, 5, 5, 5],
       events: {
         selection: function (event) {
