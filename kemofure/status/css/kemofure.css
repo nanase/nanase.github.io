@@ -165,3 +165,60 @@ a:hover {
   color: #aaa;
   font-size: 0.6rem;
 }
+
+/* --- detail --- */
+
+.detail-latest  {
+  padding: 0;
+}
+
+.detail .display-big {
+  font-size: 1.2em;
+}
+
+.detail .display-name {
+  font-size: 0.75em;
+}
+
+.detail .diff-view,
+.detail .diff-comment,
+.detail .diff-mylist {
+  font-size: 0.8em;
+}
+
+.detail .obox-diff {
+  bottom: inherit;
+  margin-top: -1rem;
+  right: 0;
+  left: 0;
+  text-align: right;
+  width: 90%;
+}
+
+.detail .graph-forms {
+  margin-bottom: 0;
+}
+.detail .graph-forms label {
+  margin: 0;
+  margin-top: 0.5rem;
+}
+.detail .graph-forms select,
+.detail .graph-forms input {
+  font-size: 0.75rem;
+  background-color: #222;
+  color: inherit;
+  border: 1px #888 solid;
+  padding: 0;
+}
+
+.detail .graph-forms select.disabled,
+.detail .graph-forms input.disabled {
+  color: #666;
+  border: 1px #666 solid;
+}
+
+.detail .graph-forms .btn {
+  padding: 5px 10px;
+  margin: 5px;
+  cursor: pointer;
+}
