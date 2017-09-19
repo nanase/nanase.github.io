@@ -14,6 +14,17 @@ function convertIntervalNumber(interval) {
   }
 }
 
+function format_tooltip_datetime(date) {
+  const kind = graphKind.get();
+  const duration = graphDuration.get();
+
+  if (kind == 'd' && duration != '12h' && duration | 0 < 30)
+    return sprintf('%d-%02d-%02d', date.getFullYear(), date.getMonth() + 1, date.getDate());
+  
+  return sprintf('%d-%02d-%02d', date.getFullYear(), date.getMonth() + 1, date.getDate()) +
+    sprintf(' %02d:%02d', date.getHours(), date.getMinutes());
+}
+
 function initialize_graph() {
   Highcharts.setOptions({
     global: {
@@ -50,6 +61,9 @@ function initialize_graph() {
         }
       }
     },
+    boost: {
+      useGPUTranslations: true
+    },
     title: {
       text: null
     },
@@ -77,11 +91,16 @@ function initialize_graph() {
       crosshairs: true,
       shared: true,
       useHTML: true,
-      headerFormat: '<small>{point.key}</small><table>',
-      pointFormat: '<tr><td style="color: {series.color}">{series.name}: </td>' +
-      '<td style="text-align: right;min-width: 40px"><b>{point.y}</b></td></tr>',
-      footerFormat: '</table>',
-      xDateFormat: '%Y-%m-%d %H:%M'
+      formatter: function() {
+        const date = new Date(this.x);
+        const header = sprintf('<small>%s</small><table>', format_tooltip_datetime(date));
+        const footer = '</table>';
+        const points = this.points.map(p => sprintf('<tr><td style="color: %s">%s: </td><td style="text-align: right;min-width: 40px"><b>%s</b></td></tr>',
+          p.color,
+          p.series.name,
+          numberWithCommas(p.y))).join('');
+        return header + points + footer;
+      }
     },
     legend: {
       enabled: true,
@@ -104,7 +123,6 @@ function initialize_graph() {
     },
     series: [{
       name: 'View',
-
       color: '#26aa44',
       lineWidth: 1,
     },
