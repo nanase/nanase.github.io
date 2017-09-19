@@ -17,12 +17,12 @@ function convertIntervalNumber(interval) {
 function format_tooltip_datetime(date) {
   const kind = graphKind.get();
   const duration = graphDuration.get();
+  let text = sprintf('%d-%02d-%02d', date.getFullYear(), date.getMonth() + 1, date.getDate())
 
-  if (kind == 'd' && duration != '12h' && duration | 0 < 30)
-    return sprintf('%d-%02d-%02d', date.getFullYear(), date.getMonth() + 1, date.getDate());
+  if (duration != '12h' && (duration | 0) >= 30)
+    return text;
   
-  return sprintf('%d-%02d-%02d', date.getFullYear(), date.getMonth() + 1, date.getDate()) +
-    sprintf(' %02d:%02d', date.getHours(), date.getMinutes());
+  return text + sprintf(' %02d:%02d', date.getHours(), date.getMinutes());
 }
 
 function initialize_graph() {
