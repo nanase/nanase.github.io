@@ -123,6 +123,8 @@ a:hover {
 .diff {
   color: #fff;
   cursor: pointer;
+  white-space: nowrap;
+  padding: 0;
 }
 
 .diff .display-name {
