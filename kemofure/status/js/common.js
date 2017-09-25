@@ -3,6 +3,7 @@ const speed_path = 'https://nanase.onl/kemofure/speed/';
 const diff_path = 'https://nanase.onl/kemofure/diff/';
 
 const detail_graph_path = 'https://nanase.onl/kemofure/detail/graph/';
+const detail_heatmap_path = 'https://nanase.onl/kemofure/detail/heatmap/';
 
 class TimeoutUpdater {
   constructor(callback, interval) {
@@ -54,4 +55,8 @@ function numberWithCommas(x) {
 
 function diffText(value) {
   return value >= 0 ? '+ ' + numberWithCommas(value) : '- ' + numberWithCommas(-value);
+}
+
+function normalize(value, normal) {
+  return value - value % normal;
 }
