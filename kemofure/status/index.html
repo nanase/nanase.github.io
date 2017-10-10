@@ -9,97 +9,122 @@
   <link rel="icon" href="../kemono.ico" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
     crossorigin="anonymous">
-  <link rel="stylesheet" href="css/kemofure.css" />
+  <link rel="stylesheet" href="css/kemofure_v2.css" />
 </head>
 
 <body style="overflow: hidden;">
   <div class="container">
     <div class="row row-eq-height text-center">
-      <div class="obox-outer col-4 col-sm-4">
-        <div class="obox obox-view">
-          <span class="display-big">--</span>
-          <span class="display-name">Views</span>
+      <div class="stat-box col-4 col-sm-4" onclick="toggle_speed();">
+        <div class="stat-box-outer stat-box-outer-view">
+          <div class="stat-box-display stat-box-display-view">
+            <div class="stable">--</div>
+            <div class="animation-fixed"><span class="unchange"></span><span class="change"></span></div>
+            <div class="animation-old"><span class="unchange"></span><span class="change"></span></div>
+            <div class="animation-new"><span class="unchange"></span><span class="change"></span></div>
+          </div>
+          <div class="stat-box-speed stat-box-speed-view">
+            <span class="stat-box-speed-value-view">--</span>
+            <span class="stat-box-speed-unit">views</span><span class="stat-box-speed-span">/h</span>
+          </div>
         </div>
-        <div class="obox-diff obox-diff-view"></div>
+        <div class="stat-box-diff stat-box-diff-view"></div>
       </div>
-      <div class="obox-outer col-4 col-sm-4">
-        <div class="obox obox-comment">
-          <span class="display-big">--</span>
-          <span class="display-name">Comments</span>
+      <div class="stat-box col-4 col-sm-4" onclick="toggle_speed();">
+        <div class="stat-box-outer stat-box-outer-comment">
+          <div class="stat-box-display stat-box-display-comment">
+            <div class="stable">--</div>
+            <div class="animation-fixed"><span class="unchange"></span><span class="change"></span></div>
+            <div class="animation-old"><span class="unchange"></span><span class="change"></span></div>
+            <div class="animation-new"><span class="unchange"></span><span class="change"></span></div>
+          </div>
+          <div class="stat-box-speed stat-box-speed-comment">
+            <span class="stat-box-speed-value-comment">--</span>
+            <span class="stat-box-speed-unit">comments</span><span class="stat-box-speed-span">/h</span>
+          </div>
         </div>
-        <div class="obox-diff obox-diff-comment"></div>
+        <div class="stat-box-diff stat-box-diff-comment"></div>
       </div>
-      <div class="obox-outer col-4 col-sm-4">
-        <div class="obox obox-mylist">
-          <span class="display-big">--</span>
-          <span class="display-name">Mylists</span>
+      <div class="stat-box col-4 col-sm-4" onclick="toggle_speed();">
+        <div class="stat-box-outer stat-box-outer-mylist">
+          <div class="stat-box-display stat-box-display-mylist">
+            <div class="stable">--</div>
+            <div class="animation-fixed"><span class="unchange"></span><span class="change"></span></div>
+            <div class="animation-old"><span class="unchange"></span><span class="change"></span></div>
+            <div class="animation-new"><span class="unchange"></span><span class="change"></span></div>
+          </div>
+          <div class="stat-box-speed stat-box-speed-mylist">
+            <span class="stat-box-speed-value-mylist">--</span>
+            <span class="stat-box-speed-unit">mylists</span><span class="stat-box-speed-span">/h</span>
+          </div>
         </div>
-        <div class="obox-diff obox-diff-mylist"></div>
+        <div class="stat-box-diff stat-box-diff-mylist"></div>
       </div>
     </div>
-    <div class="row row-eq-height text-center">
-      <div class="diff diff-box-view col-4 col-sm-4" onclick="toggle_speed();">
-        <span class="diff-view">--</span>
-        <span class="display-name">views/h</span>
-      </div>
-      <div class="diff diff-box-comment col-4 col-sm-4" onclick="toggle_speed();">
-        <span class="diff-comment">--</span>
-        <span class="display-name">comments/h</span>
-      </div>
-      <div class="diff diff-box-mylist col-4 col-sm-4" onclick="toggle_speed();">
-        <span class="diff-mylist">--</span>
-        <span class="display-name">mylists/h</span>
-      </div>
-    </div>
+
     <div class="row">
-      <div class="col-sm-12 obox-graph">
-        <div id="graph" class="graph" style="height: 300px;">
+      <div class="col-sm-12 graph-box">
+        <div id="graph" style="height: 300px;">
           <svg></svg>
         </div>
       </div>
     </div>
-    <div class="row row-eq-height text-center">
-      <div class="obox obox-mini col-2 col-sm-2 obox-graph-selector-d" onclick="load_graph('d');">
-        DIFF
-      </div>
-      <div class="obox obox-mini col-2 col-sm-2 obox-graph-selector-12h" onclick="load_graph(null,'12h');">
-        12 h
-      </div>
-      <div class="obox obox-mini col-2 col-sm-2 obox-graph-selector-1" onclick="load_graph(null,'1');">
-        1 d
+
+    <div class="row justify-content-center row-eq-height text-center" style="margin-top:0.5rem">
+      <div class="col-2">
+        <div class="graph-forms form-group">
+          <select class="form-control" id="graph-kind" style="height: calc(1rem + 4px);" onchange="load_graph(this.selectedOptions[0].value)">
+            <option value="d">DIFF</option>
+            <option value="s">TOTAL</option>
+          </select>
+        </div>
       </div>
 
-      <div class="obox obox-mini col-2 col-sm-2 obox-graph-selector-3" onclick="load_graph(null,'3');">
-        3 d
+      <div class="col-2">
+        <div class="graph-forms form-group">
+          <select class="form-control" id="graph-duration" style="height: calc(1rem + 4px);" onchange="load_graph(null,this.selectedOptions[0].value)">
+              <option value="12h">12 h</option>
+              <option value="1">24 h</option>
+              <option value="3">3 d</option>
+              <option value="7">7 d</option>
+              <option value="15">15 d</option>
+              <option value="30">30 d</option>
+              <option value="60">60 d</option>
+              <option value="90">90 d</option>
+              <option value="180">180 d</option>
+              <option value="365">365 d</option>
+            </select>
+        </div>
       </div>
-      <div class="obox obox-mini col-2 col-sm-2 obox-graph-selector-7" onclick="load_graph(null,'7');">
-        7 d
+
+      <div class="col-2">
+        <div class="graph-forms form-group">
+          <select class="form-control" id="graph-theme" style="height: calc(1rem + 4px);" onchange="set_graph_theme(this.selectedOptions[0].value)">
+            <option value="0">Light</option>
+            <option value="1">Dark</option>
+          </select>
+        </div>
       </div>
-      <div class="obox obox-mini col-2 col-sm-2 obox-graph-selector-15" onclick="load_graph(null,'15');">
-        15 d
+
+      <div class="col-2">
+        <div class="graph-forms form-group">
+          <select class="form-control" id="graph-max" style="height: calc(1rem + 4px);" onchange="set_max_value_showing(this.selectedOptions[0].value)">
+            <option value="0">Max: hide</option>
+            <option value="1">Max: show</option>
+          </select>
+        </div>
       </div>
     </div>
-    <div class="row row-eq-height text-center">
-      <div class="obox obox-mini col-2 col-sm-2 obox-graph-selector-s" onclick="load_graph('s');">
-        TOTAL
-      </div>
-      <div class="obox obox-mini col-2 col-sm-2 obox-graph-selector-30" onclick="load_graph(null,'30');">
-        30 d
-      </div>
-      <div class="obox obox-mini col-2 col-sm-2 obox-graph-selector-60" onclick="load_graph(null,'60');">
-        60 d
-      </div>
-      <div class="obox obox-mini col-2 col-sm-2 obox-graph-selector-90" onclick="load_graph(null,'90');">
-        90 d
-      </div>
-      <div class="obox obox-mini col-2 col-sm-2 obox-graph-selector-180" onclick="load_graph(null,'180');">
-        180 d
-      </div>
-      <div class="obox obox-mini col-2 col-sm-2 obox-graph-selector-365" onclick="load_graph(null,'365');">
-        365 d
+
+    <div class="row justify-content-center row-eq-height text-center link">
+      <div class="col-sm-12">
+        <span class="horizon-line"></span>
+        <span class="horizon-logo svg-kemofure-logo"></span>
+        <span class="horizon-line"></span>
       </div>
     </div>
-    <div class="row row-eq-height text-center obox-link">
+
+    <div class="row row-eq-height text-center link">
       <div class="col-sm-12">
         <a href="detail.html">詳細統計</a>
         <a href="info.html">このサイトについて</a>
@@ -120,8 +145,8 @@
   <script type="text/javascript" src="js/highcharts/modules/boost-canvas.js"></script>
   <script type="text/javascript" src="js/sprintf.min.js"></script>
   <script type="text/javascript" src="js/common.js"></script>
-  <script type="text/javascript" src="js/latest_value.js"></script>
-  <script type="text/javascript" src="js/index.js"></script>
+  <script type="text/javascript" src="js/latest_value_v2.js"></script>
+  <script type="text/javascript" src="js/index_v2.js"></script>
 </body>
 
 </html>
