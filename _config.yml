@@ -1,0 +1,10 @@
+encoding: utf-8
+title: Lazuli
+url: https://nanase.cc/
+repository: nanase/nanase.github.io
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+plugins:
+  - jekyll-redirect-from
