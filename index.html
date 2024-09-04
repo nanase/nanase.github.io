@@ -33,7 +33,7 @@
     .container {
       margin: 0 auto;
       opacity: 0;
-      animation: container-openning 1s ease-in-out 1.5s 1 normal forwards running;
+      animation: container-openning 0.3s ease-in-out 1s 1 normal forwards running;
     }
 
     .menu {
@@ -101,7 +101,7 @@
       width: 68px;
       height: 68px;
       margin: -35px 0 0 -35px;
-      animation: logo-openning 1s ease-in-out 1s 1 normal forwards running;
+      animation: logo-openning 0.5s ease-in-out 1s 1 normal forwards running;
     }
 
     @keyframes logo-openning {
@@ -151,7 +151,8 @@
     }
 
     .svg-logo {
-      background-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2070%2070%22%20fill%3D%22%23eee%22%3E%3Cpath%20d%3D%22M8%200C4.6%200%201.8%202.8%201.8%206.3v55.5C1.8%2065.2%204.6%2068%208%2068h55.6c3.4%200%206.3-2.7%206.3-6V6.3c0-3.3-3-6-6.7-6h-55zm0%202.5h55.5c2%200%203.8%201.7%203.8%203.8v55.5c0%202-1.7%203.8-3.8%203.8H8c-2%200-3.7-1.7-3.7-3.7V6C4.3%204%206%202.3%208%202.3zM11%2061L29.3%207.2H43L60.6%2061H48L35.6%2025.5%2023.6%2061z%22%2F%3E%3C%2Fsvg%3E');
+      background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODkuMzAxbW0iIGhlaWdodD0iODkuMzAxbW0iIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDg5LjMwMSA4OS4zMDEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgogPGRlZnM+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJjIiB4MT0iMTguMTUiIHgyPSI1Ny4xNjUiIHkxPSIyLjU2MDciIHkyPSI3MC4xMzciIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIiB4bGluazpocmVmPSIjYSIvPgogIDxsaW5lYXJHcmFkaWVudCBpZD0iYSI+CiAgIDxzdG9wIHN0b3AtY29sb3I9IiNmZmYiIG9mZnNldD0iMCIvPgogICA8c3RvcCBzdG9wLWNvbG9yPSIjYTNhM2EzIiBvZmZzZXQ9IjEiLz4KICA8L2xpbmVhckdyYWRpZW50PgogIDxsaW5lYXJHcmFkaWVudCBpZD0iYiIgeDE9IjE4LjE1IiB4Mj0iNTcuMTY1IiB5MT0iMi41NjA3IiB5Mj0iNzAuMTM3IiBncmFkaWVudFRyYW5zZm9ybT0idHJhbnNsYXRlKDMyLjg3MiAuMDAwMjE2OSkiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIiB4bGluazpocmVmPSIjYSIvPgogPC9kZWZzPgogPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTUuMzQ5MyAtMTQuMzQpIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogIDxwYXRoIGQ9Im01MCAxOS45OGMwLjg0MjY1IDAgMS43Mzc4IDAuNDI3NjEgMi4yMzYzIDEuMjkxbDQuNTYyNSA3LjkwMjNjMi4wOTc0IDMuNjMyOSAyLjA5NzQgOC4xMTUyIDAgMTEuNzQ4bC0yOS41NjIgNTEuMjAzYy0yLjA5NzUgMy42MzMtNS45NzkyIDUuODc1LTEwLjE3NCA1Ljg3NWgtOS4xMjVjLTEuOTkzOCAwLTMuMjMzMy0yLjE0ODItMi4yMzYzLTMuODc1bDQyLjA2My03Mi44NTRjMC40OTg0OC0wLjg2MzM5IDEuMzkzNy0xLjI5MSAyLjIzNjMtMS4yOTF6IiBmaWxsPSJ1cmwoI2MpIi8+CiAgPHBhdGggZD0ibTUwIDE5Ljk4MWMtMC44NDI2NSAwLTEuNzM4MSAwLjQyNzQ5LTIuMjM2NiAxLjI5MDlsLTQuNTYyNSA3LjkwMjRjLTIuMDk3NCAzLjYzMjktMi4wOTc0IDguMTE1MyAwIDExLjc0OGwyOC4yMjQgNDguODg1LTE0LjkzNy02LjQ2NzhjLTAuOTM3OTgtMC40MDYxNi0xLjkxMTMtMC42NjkxNC0yLjg5MjMtMC43OTI3Mi0yLjk0NTEtMC4zNzEtNS45NzE0IDAuNTA0MjgtOC4yODczIDIuNTA5OWwtMTMgMTEuMjU4Yy0wLjY2MjczIDAuNTczOTQtMC4yNDc3OSAxLjY4NTcgMC42Mjg5IDEuNjg1N2g1OS4xMjVjMS45OTM4IDAgMy4yMzMtMi4xNDg0IDIuMjM2LTMuODc1MmwtNDIuMDYzLTcyLjg1M2MtMC40OTg0OC0wLjg2MzQtMS4zOTM0LTEuMjkwOS0yLjIzNi0xLjI5MDl6IiBmaWxsPSJ1cmwoI2IpIi8+CiA8L2c+Cjwvc3ZnPgo=');
+      background-size: 64px;
     }
 
     .svg-github {
@@ -198,6 +199,7 @@
             <span class="icon svg svg-github"></span>
             <div class="item-text">
               <span class="item-name">GitHub</span>
+              <span class="item-description">code repositories</span>
             </div>
           </a>
         </div>
@@ -206,10 +208,11 @@
             <span class="icon svg svg-repo"></span>
             <div class="item-text">
               <span class="item-name">Zenn</span>
+              <span class="item-description">articles</span>
             </div>
           </a>
         </div>
-        <div class="item">
+        <div class="item" style="display:none">
           <a href="http://nanase.hatenablog.jp/" target="_blank">
             <span class="icon svg svg-blog"></span>
             <div class="item-text">
@@ -220,6 +223,24 @@
       </div>
       <div class="col">
         <div class="item">
+          <a href="https://nanase.cc/tools/">
+            <span class="icon svg svg-repo"></span>
+            <div class="item-text">
+              <span class="item-name">Tools</span>
+              <span class="item-description">and simulators</span>
+            </div>
+          </a>
+        </div>
+        <div class="item">
+          <a href="https://nanase.cc/kemov/stats/">
+            <span class="icon svg svg-kemofure"></span>
+            <div class="item-text">
+              <span class="item-name">KemoV</span>
+              <span class="item-description">fan pages</span>
+            </div>
+          </a>
+        </div>
+        <div class="item" style="display:none">
           <a href="https://twitter.com/nanasetomona" target="_blank">
             <span class="icon svg svg-twitter"></span>
             <div class="item-text">
@@ -228,7 +249,7 @@
             </div>
           </a>
         </div>
-        <div class="item">
+        <div class="item" style="display:none">
           <a href="https://twitter.com/nanase_coder" target="_blank">
             <span class="icon svg svg-twitter"></span>
             <div class="item-text">
